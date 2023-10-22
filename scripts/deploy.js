@@ -40,6 +40,8 @@ const waitBlocks = async (n) => {
 
 async function main() {
 
+  const relayer = "0xf35ad8c30C9c4c15C38b69fcCDF0D254E3fB82Bd";
+
   const Contract = await ethers.getContractFactory("ViewingDay");
   Contract.runner.provider.getFeeData = async () => await getFeeOption()
   const [signer] = await ethers.getSigners();
@@ -47,12 +49,12 @@ async function main() {
   Contract.connect(signer);
 
   console.log('network: ', hre.network.name);
-  const contract = await Contract.deploy(signer.address);
-  console.log('signer addr : ', signer.address)
+  const contract = await Contract.deploy(relayer);
+  console.log('relayer addr : ', relayer)
   const addr = await contract.getAddress();
   console.log("Token address:", addr);
-  await waitBlocks(5)
-  await hre.run("verify:verify", { address: addr, constructorArguments: [signer.address] });
+  await waitBlocks(10)
+  await hre.run("verify:verify", { address: addr, constructorArguments: [relayer] });
 
 }
 

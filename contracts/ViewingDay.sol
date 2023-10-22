@@ -104,6 +104,14 @@ contract ViewingDay is ERC721Enumerable{
         return false;
     }
 
+    function getOwner() public view returns (address) {
+      return _owner;
+    }
+
+    function isOperatorActive(address operatorAddr) public view returns (bool) {
+      return _operators[operatorAddr];
+    }
+
     function updateOperator(address newOperator, bool isActive) external onlyOwner() {
         _operators[newOperator] = isActive;
     }
